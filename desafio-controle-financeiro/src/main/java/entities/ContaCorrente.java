@@ -50,22 +50,22 @@ public class ContaCorrente {
 	}
 
 	public void depositar(Double valor) throws DomainException {
-		if (valor <= 0.0) {
-			throw new DomainException("O valor de depósito deve ser superior a zero.");
-		} else if (cancelada) {
+		if (cancelada) {
 			throw new DomainException("Conta cancelada.");
+		} else if (valor <= 0.0) {
+			throw new DomainException("O valor de depósito deve ser superior a zero.");
 		}
 		saldo += valor;
 		transacao.add(new Extrato(valor, tipoOperacao.DEPOSITO));
 	}
 
 	public void sacar(Double valor) throws DomainException {
-		if (valor <= 0.0) {
+		if (cancelada) {
+			throw new DomainException("Conta cancelada.");
+		} else if (valor <= 0.0) {
 			throw new DomainException("O valor de saque deve ser superior a zero.");
 		} else if (valor > saldo) {
 			throw new DomainException("Saldo insuficiente para esta transação.");
-		} else if (cancelada) {
-			throw new DomainException("Conta cancelada.");
 		}
 		saldo -= valor;
 		transacao.add(new Extrato(valor, tipoOperacao.SAQUE));
@@ -83,10 +83,10 @@ public class ContaCorrente {
 	}
 
 	public void cancelarConta(String justificativa) throws DomainException {
-		if (justificativa.isBlank()) {
-			throw new DomainException("Informe uma justificativa para o cancelamento.");
-		} else if (cancelada) {
+		if (cancelada) {
 			throw new DomainException("Conta cancelada.");
+		} else if (justificativa.isBlank()) {
+			throw new DomainException("Informe uma justificativa para o cancelamento.");
 		}
 		cancelada = true;
 	}
