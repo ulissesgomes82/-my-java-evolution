@@ -22,7 +22,7 @@ public class Extrato {
 		return valor;
 	}
 
-	public tipoOperacao getoperacao() {
+	public tipoOperacao getOperacao() {
 		return operacao;
 	}
 

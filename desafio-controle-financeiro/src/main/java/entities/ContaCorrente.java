@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,9 +51,8 @@ public class ContaCorrente {
 	}
 
 	public void depositar(Double valor) throws DomainException {
-		if (cancelada) {
-			throw new DomainException("Conta cancelada.");
-		} else if (valor <= 0.0) {
+		validaConta();
+		if (valor <= 0.0) {
 			throw new DomainException("O valor de depósito deve ser superior a zero.");
 		}
 		saldo += valor;
@@ -60,9 +60,8 @@ public class ContaCorrente {
 	}
 
 	public void sacar(Double valor) throws DomainException {
-		if (cancelada) {
-			throw new DomainException("Conta cancelada.");
-		} else if (valor <= 0.0) {
+		validaConta();
+		if (valor <= 0.0) {
 			throw new DomainException("O valor de saque deve ser superior a zero.");
 		} else if (valor > saldo) {
 			throw new DomainException("Saldo insuficiente para esta transação.");
@@ -75,7 +74,11 @@ public class ContaCorrente {
 		if (contaDestino == null) {
 			throw new DomainException("Deve ser informado uma conta valida para transferência.");
 		} else if (contaDestino.cancelada) {
-			throw new DomainException("Conta destino cancelada.");
+			throw new DomainException("Não é possível realizar essa operação, conta destino cancelada.");
+		} else if (valor <= 0.0) {
+			throw new DomainException("O valor para transferência deve ser superior a zero.");
+		} else if (valor > saldo) {
+			throw new DomainException("Saldo insuficiente para esta transação.");
 		}
 		saldo -= valor;
 		contaDestino.saldo += valor;
@@ -83,12 +86,32 @@ public class ContaCorrente {
 	}
 
 	public void cancelarConta(String justificativa) throws DomainException {
-		if (cancelada) {
-			throw new DomainException("Conta cancelada.");
-		} else if (justificativa.isBlank()) {
+		validaConta();
+		if (justificativa.isBlank()) {
 			throw new DomainException("Informe uma justificativa para o cancelamento.");
 		}
 		cancelada = true;
 	}
 
+	public void validaConta() throws DomainException {
+		if (cancelada) {
+			throw new DomainException("Não é possível realizar essa operação, conta cancelada.");
+		}
+	}
+
+	public Double consultarSaldoAtual() {
+		return saldo;
+	}
+
+	public List<Extrato> consultarExtrato(LocalDate dataInicial, LocalDate dataFinal) throws DomainException{
+		validaConta();
+		if (dataInicial == null || dataFinal == null) {
+			throw new DomainException("Data inicial ou final é inválida.");
+		}
+		if (dataInicial.isAfter(dataFinal)) {
+			throw new DomainException("Data inicial não pode ser posterior a data final.");
+		}
+		return transacao.stream().filter(data -> data.getDataOperacao().isAfter(dataInicial) && data.getDataOperacao().isBefore(dataFinal)).toList();
+		
+	}
 }
