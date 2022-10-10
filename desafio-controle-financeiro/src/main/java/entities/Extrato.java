@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 public class Extrato {
 	private LocalDate dataOperacao;
 	private Double valor;
-	private operacaoOperacao operacao;
+	private tipoOperacao operacao;
 
-	public Extrato(Double valor, operacaoOperacao operacao) {
+	public Extrato(Double valor, tipoOperacao operacao) {
 		dataOperacao = LocalDate.now();
 		this.valor = valor;
 		this.operacao = operacao;
@@ -22,11 +22,11 @@ public class Extrato {
 		return valor;
 	}
 
-	public operacaoOperacao getoperacao() {
+	public tipoOperacao getoperacao() {
 		return operacao;
 	}
 
-	public enum operacaoOperacao {
+	public enum tipoOperacao {
 		DEPOSITO, SAQUE, TRANSFERÊNCIA
 	}
 	
