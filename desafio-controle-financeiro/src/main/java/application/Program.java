@@ -2,17 +2,10 @@ package application;
 
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Locale;
-import java.util.Scanner;
-
-import entities.ContaCorrente;
-import entities.exceptions.DomainException;
 
 public class Program {
 
-	public static void main(String[] args) throws DomainException, ParseException {
+	public static void main(String[] args) throws ParseException {
 //		Scanner sc = new Scanner(System.in);
 //		Locale.setDefault(Locale.US);
 //		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

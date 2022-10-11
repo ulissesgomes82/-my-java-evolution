@@ -1,9 +1,9 @@
 package entities.exceptions;
 
-public class DomainException extends Exception {
+public class SaqueInvalidoException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public DomainException(String message) {
+	public SaqueInvalidoException(String message) {
 		super(message);
 	}
 
