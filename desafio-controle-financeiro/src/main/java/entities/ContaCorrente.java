@@ -13,12 +13,12 @@ public class ContaCorrente {
 	private Integer numeroConta = new Random().nextInt(1000);
 	private Integer numeroAgencia = new Random().nextInt(1000);
 	private String nomeCliente;
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	private Double saldo = 0.0;
 	private Boolean cancelada = false;
 	private List<Extrato> transacao = new ArrayList<Extrato>();
 
-	public ContaCorrente(String nomeCliente, Date dataNascimento) {
+	public ContaCorrente(String nomeCliente, LocalDate dataNascimento) {
 		this.nomeCliente = nomeCliente;
 		this.dataNascimento = dataNascimento;
 	}
@@ -35,7 +35,7 @@ public class ContaCorrente {
 		return nomeCliente;
 	}
 
-	public Date getDataNascimento() {
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
 
