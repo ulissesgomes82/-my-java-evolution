@@ -4,26 +4,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import entities.Extrato.tipoOperacao;
 import entities.exceptions.DomainException;
 
 public class ContaCorrente {
-	private Integer numeroConta;
-	private Integer numeroAgencia;
+	private Integer numeroConta = new Random().nextInt(1000);
+	private Integer numeroAgencia = new Random().nextInt(1000);
 	private String nomeCliente;
 	private Date dataNascimento;
 	private Double saldo = 0.0;
 	private Boolean cancelada = false;
 	private List<Extrato> transacao = new ArrayList<Extrato>();
 
-	public ContaCorrente(Integer numeroConta, Integer numeroAgencia, String nomeCliente, Date dataNascimento,
-			Double saldo) {
-		this.numeroConta = numeroConta;
-		this.numeroAgencia = numeroAgencia;
+	public ContaCorrente(String nomeCliente, Date dataNascimento) {
 		this.nomeCliente = nomeCliente;
 		this.dataNascimento = dataNascimento;
-		this.saldo = saldo;
 	}
 
 	public Integer getNumeroConta() {
