@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import java.lang.reflect.Executable;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.concurrent.CancellationException;
 
@@ -151,6 +151,37 @@ class ContaCorrenteTest {
 	}
 	/*Fim teste transferência*/
 	
+	/*inicio teste consultar extrato*/
+	
+	@DisplayName("consultar extrato data inicial nula")
+	@Test
+	void consultarExtratoDataInicialNula() {
+		DateTimeException excecao = assertThrows(DateTimeException.class, ()->conta.consultarExtrato(null, LocalDate.of(2022, 8, 1)));
+		assertEquals("Data inicial ou final é inválida.", excecao.getMessage());
+	}
+	
+	@DisplayName("consultar extrato data final nula")
+	@Test
+	void consultarExtratoDataFinalNula() {
+		DateTimeException excecao = assertThrows(DateTimeException.class, ()->conta.consultarExtrato(LocalDate.of(2022, 9, 1), null));
+		assertEquals("Data inicial ou final é inválida.", excecao.getMessage());
+	}
+	
+	@DisplayName("consultar extrato")
+	@Test
+	void consultarExtrato() throws DepositoInvalidoException, SaqueInvalidoException, TransferenciaInvalidaException {
+		conta.depositar(100.0);
+		conta.sacar(50.0);
+		conta.depositar(500.0);
+		conta.transferir(contaDestino, 50.0);
+		contaDestino.depositar(500.0);
+		contaDestino.sacar(100.0);
+		contaDestino.transferir(conta, 100.0);
+		assertEquals(4, conta.getTransacao().size());
+		assertEquals(3, contaDestino.getTransacao().size());
+	}
+	
+	/*Fim teste consultar extrato*/
 	
 	@DisplayName("Validando conta")
 	@Test
