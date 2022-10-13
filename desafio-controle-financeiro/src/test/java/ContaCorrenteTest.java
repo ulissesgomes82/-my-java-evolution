@@ -18,8 +18,7 @@ class ContaCorrenteTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		conta = new ContaCorrente("Ulisses Gomes", LocalDate.of(1982, 9, 10));
-		
+		conta = new ContaCorrente("Ulisses Gomes", LocalDate.of(1982, 9, 10), 100.0);
 	}
 	
 	/*Começo teste depositar*/
@@ -49,13 +48,52 @@ class ContaCorrenteTest {
 	@Test
 	void deposito() throws DepositoInvalidoException {
 		conta.depositar(60.0);
-		Double expectativa = 60.0;
+		Double expectativa = 160.0;
 		assertEquals(expectativa, conta.consultarSaldoAtual());
 		assertEquals(1, conta.getTransacao().size());
 	}
 	
 	/*Fim teste depositar*/
 	
+	/*Começo teste sacar*/
+	
+	@DisplayName("saque valor nulo")
+	@Test
+	void saqueNulo() {
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(null));
+		assertEquals("O valor de saque deve ser superior a zero.", justificativa.getMessage());
+	}
+	
+	@DisplayName("saque valor zero")
+	@Test
+	void saqueZero() {
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(0.0));
+		assertEquals("O valor de saque deve ser superior a zero.", justificativa.getMessage());
+	}
+	
+	@DisplayName("saque valor negativo")
+	@Test
+	void saqueMenorZero() {
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(-100.0));
+		assertEquals("O valor de saque deve ser superior a zero.", justificativa.getMessage());
+	}
+	@DisplayName("saque maior que saldo")
+	@Test
+	void saqueMaiorSaldo() {
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(500.0));
+		assertEquals("Saldo insuficiente para esta transação.", justificativa.getMessage());
+	}
+	
+	@DisplayName("sacar valor")
+	@Test
+	void saque() throws SaqueInvalidoException {
+		conta.sacar(100.0);
+		Double expectativa = 0.0;
+		assertEquals(expectativa, conta.consultarSaldoAtual());
+		assertEquals(1, conta.getTransacao().size());
+	}
+	/*Fim teste sacar*/
+
 
 	@DisplayName("Cancelar conta justificativa nula")
 	@Test

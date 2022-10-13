@@ -17,13 +17,14 @@ public class ContaCorrente {
 	private Integer numeroAgencia = new Random().nextInt(1000);
 	private String nomeCliente;
 	private LocalDate dataNascimento;
-	private Double saldo = 00.00;
+	private Double saldo = 0.0;
 	private Boolean cancelada = false;
 	private List<Extrato> transacao = new ArrayList<Extrato>();
 
-	public ContaCorrente(String nomeCliente, LocalDate dataNascimento) {
+	public ContaCorrente(String nomeCliente, LocalDate dataNascimento, Double saldo) {
 		this.nomeCliente = nomeCliente;
 		this.dataNascimento = dataNascimento;
+		this.saldo = saldo;
 	}
 
 	public Integer getNumeroConta() {
@@ -65,7 +66,7 @@ public class ContaCorrente {
 
 	public void sacar(Double valor) throws SaqueInvalidoException {
 		validaConta();
-		if (valor <= 0.0) {
+		if (valor == null || valor <= 0.0) {
 			throw new SaqueInvalidoException("O valor de saque deve ser superior a zero.");
 		} else if (valor > saldo) {
 			throw new SaqueInvalidoException("Saldo insuficiente para esta transação.");
