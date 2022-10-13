@@ -53,10 +53,12 @@ class ContaCorrenteTest {
 	@DisplayName("deposito valor")
 	@Test
 	void deposito() throws DepositoInvalidoException {
-		conta.depositar(60.0);
+		Double valorDeposito = 60.0;
+		conta.depositar(valorDeposito);
 		Double expectativa = 160.0;
 		assertEquals(expectativa, conta.consultarSaldoAtual());
 		assertEquals(1, conta.getTransacao().size());
+		assertEquals(valorDeposito, conta.getTransacao().get(0).getValor());
 	}
 
 	/* Fim teste depositar */
@@ -94,10 +96,12 @@ class ContaCorrenteTest {
 	@DisplayName("sacar valor")
 	@Test
 	void saque() throws SaqueInvalidoException {
-		conta.sacar(100.0);
+		Double valorSaque = 100.0;
+		conta.sacar(valorSaque);
 		Double expectativa = 0.0;
 		assertEquals(expectativa, conta.consultarSaldoAtual());
 		assertEquals(1, conta.getTransacao().size());
+		assertEquals(valorSaque, conta.getTransacao().get(0).getValor());
 	}
 	/* Fim teste sacar */
 
@@ -142,12 +146,14 @@ class ContaCorrenteTest {
 	@DisplayName("transferir valor")
 	@Test
 	void transferir() throws TransferenciaInvalidaException {
-		conta.transferir(contaDestino, 30.0);
+		Double valorTransferido = 30.0;
+		conta.transferir(contaDestino, valorTransferido);
 		Double expectativaSaldo = 70.0;
 		Double expectativaDestinoSaldo = 130.0;
 		assertEquals(expectativaSaldo, conta.getSaldo());
 		assertEquals(expectativaDestinoSaldo, contaDestino.getSaldo());
 		assertEquals(1, conta.getTransacao().size());
+		assertEquals(valorTransferido, conta.getTransacao().get(0).getValor());
 	}
 	/*Fim teste transferência*/
 	
