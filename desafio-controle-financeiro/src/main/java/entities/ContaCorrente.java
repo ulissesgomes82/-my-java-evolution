@@ -17,7 +17,7 @@ public class ContaCorrente {
 	private Integer numeroAgencia = new Random().nextInt(1000);
 	private String nomeCliente;
 	private LocalDate dataNascimento;
-	private Double saldo = 0.0;
+	private Double saldo = 00.00;
 	private Boolean cancelada = false;
 	private List<Extrato> transacao = new ArrayList<Extrato>();
 
@@ -50,9 +50,13 @@ public class ContaCorrente {
 		return cancelada;
 	}
 
+	public List<Extrato> getTransacao() {
+		return transacao;
+	}
+
 	public void depositar(Double valor) throws DepositoInvalidoException {
 		validaConta();
-		if (valor <= 0.0) {
+		if (valor == null || valor <= 0.0) {
 			throw new DepositoInvalidoException("O valor de depósito deve ser superior a zero.");
 		}
 		saldo += valor;
