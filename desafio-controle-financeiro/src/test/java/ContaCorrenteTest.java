@@ -18,6 +18,7 @@ class ContaCorrenteTest {
 
 	ContaCorrente conta;
 	ContaCorrente contaDestino;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		conta = new ContaCorrente("Ulisses Gomes", LocalDate.of(1982, 9, 10), 100.0);
@@ -105,44 +106,48 @@ class ContaCorrenteTest {
 	}
 	/* Fim teste sacar */
 
-	/*Inicio teste transferência*/
-	
+	/* Inicio teste transferência */
+
 	@DisplayName("transferência para conta destino nula")
 	@Test
 	void transferirParaContaNula() {
-		NullPointerException excecao = assertThrows(NullPointerException.class, ()->conta.transferir(null, 50.0));
+		NullPointerException excecao = assertThrows(NullPointerException.class, () -> conta.transferir(null, 50.0));
 		assertEquals("Deve ser informado uma conta valida para transferência.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("transferência para conta destino cancelada")
 	@Test
 	void tranferirContaDestinoCancelada() {
 		contaDestino.cancelarConta("Teste de transferencia para ");
-		CancellationException excecao = assertThrows(CancellationException.class, ()->conta.transferir(contaDestino, 100.0));
+		CancellationException excecao = assertThrows(CancellationException.class,
+				() -> conta.transferir(contaDestino, 100.0));
 		assertEquals("Não é possível realizar essa operação, conta destino cancelada.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("transferir valor negativo")
 	@Test
 	void tranferirValorMenorZero() {
-		TransferenciaInvalidaException excecao = assertThrows(TransferenciaInvalidaException.class, ()->conta.transferir(contaDestino, -50.0));
+		TransferenciaInvalidaException excecao = assertThrows(TransferenciaInvalidaException.class,
+				() -> conta.transferir(contaDestino, -50.0));
 		assertEquals("O valor para transferência deve ser superior a zero.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("transferir valor igual a zero")
 	@Test
 	void transferirValorZero() {
-		TransferenciaInvalidaException excecao = assertThrows(TransferenciaInvalidaException.class, ()->conta.transferir(contaDestino, 0.0));
+		TransferenciaInvalidaException excecao = assertThrows(TransferenciaInvalidaException.class,
+				() -> conta.transferir(contaDestino, 0.0));
 		assertEquals("O valor para transferência deve ser superior a zero.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("transferir valor maior que saldo")
 	@Test
 	void transferirValorMaiorSaldo() {
-		TransferenciaInvalidaException excecao = assertThrows(TransferenciaInvalidaException.class, ()-> conta.transferir(contaDestino, 500.0));
+		TransferenciaInvalidaException excecao = assertThrows(TransferenciaInvalidaException.class,
+				() -> conta.transferir(contaDestino, 500.0));
 		assertEquals("Saldo insuficiente para esta transação.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("transferir valor")
 	@Test
 	void transferir() throws TransferenciaInvalidaException {
@@ -155,24 +160,26 @@ class ContaCorrenteTest {
 		assertEquals(1, conta.getTransacao().size());
 		assertEquals(valorTransferido, conta.getTransacao().get(0).getValor());
 	}
-	/*Fim teste transferência*/
-	
-	/*inicio teste consultar extrato*/
-	
+	/* Fim teste transferência */
+
+	/* inicio teste consultar extrato */
+
 	@DisplayName("consultar extrato data inicial nula")
 	@Test
 	void consultarExtratoDataInicialNula() {
-		DateTimeException excecao = assertThrows(DateTimeException.class, ()->conta.consultarExtrato(null, LocalDate.of(2022, 8, 1)));
+		DateTimeException excecao = assertThrows(DateTimeException.class,
+				() -> conta.consultarExtrato(null, LocalDate.of(2022, 8, 1)));
 		assertEquals("Data inicial ou final é inválida.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("consultar extrato data final nula")
 	@Test
 	void consultarExtratoDataFinalNula() {
-		DateTimeException excecao = assertThrows(DateTimeException.class, ()->conta.consultarExtrato(LocalDate.of(2022, 9, 1), null));
+		DateTimeException excecao = assertThrows(DateTimeException.class,
+				() -> conta.consultarExtrato(LocalDate.of(2022, 9, 1), null));
 		assertEquals("Data inicial ou final é inválida.", excecao.getMessage());
 	}
-	
+
 	@DisplayName("consultar extrato")
 	@Test
 	void consultarExtrato() throws DepositoInvalidoException, SaqueInvalidoException, TransferenciaInvalidaException {
@@ -186,9 +193,9 @@ class ContaCorrenteTest {
 		assertEquals(4, conta.getTransacao().size());
 		assertEquals(3, contaDestino.getTransacao().size());
 	}
-	
-	/*Fim teste consultar extrato*/
-	
+
+	/* Fim teste consultar extrato */
+
 	@DisplayName("Validando conta")
 	@Test
 	void validarConta() {
