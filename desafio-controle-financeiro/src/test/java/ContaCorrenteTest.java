@@ -20,30 +20,33 @@ class ContaCorrenteTest {
 	void setUp() throws Exception {
 		conta = new ContaCorrente("Ulisses Gomes", LocalDate.of(1982, 9, 10), 100.0);
 	}
-	
-	/*Começo teste depositar*/
-	
+
+	/* Começo teste depositar */
+
 	@DisplayName("deposito valor negativo")
 	@Test
-	void  depositoMenorZero() {
-		DepositoInvalidoException justificativa = assertThrows(DepositoInvalidoException.class, ()-> conta.depositar(-100.0));
+	void depositoMenorZero() {
+		DepositoInvalidoException justificativa = assertThrows(DepositoInvalidoException.class,
+				() -> conta.depositar(-100.0));
 		assertEquals("O valor de depósito deve ser superior a zero.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("deposito valor igual a zero")
 	@Test
 	void depositoIgualZero() {
-		DepositoInvalidoException justificativa = assertThrows(DepositoInvalidoException.class, ()->conta.depositar(0.0));
+		DepositoInvalidoException justificativa = assertThrows(DepositoInvalidoException.class,
+				() -> conta.depositar(0.0));
 		assertEquals("O valor de depósito deve ser superior a zero.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("deposito valor nulo")
 	@Test
 	void depositoNulo() {
-		DepositoInvalidoException justificativa = assertThrows(DepositoInvalidoException.class, ()-> conta.depositar(null));
+		DepositoInvalidoException justificativa = assertThrows(DepositoInvalidoException.class,
+				() -> conta.depositar(null));
 		assertEquals("O valor de depósito deve ser superior a zero.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("deposito valor")
 	@Test
 	void deposito() throws DepositoInvalidoException {
@@ -52,38 +55,39 @@ class ContaCorrenteTest {
 		assertEquals(expectativa, conta.consultarSaldoAtual());
 		assertEquals(1, conta.getTransacao().size());
 	}
-	
-	/*Fim teste depositar*/
-	
-	/*Começo teste sacar*/
-	
+
+	/* Fim teste depositar */
+
+	/* Começo teste sacar */
+
 	@DisplayName("saque valor nulo")
 	@Test
 	void saqueNulo() {
-		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(null));
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, () -> conta.sacar(null));
 		assertEquals("O valor de saque deve ser superior a zero.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("saque valor zero")
 	@Test
 	void saqueZero() {
-		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(0.0));
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, () -> conta.sacar(0.0));
 		assertEquals("O valor de saque deve ser superior a zero.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("saque valor negativo")
 	@Test
 	void saqueMenorZero() {
-		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(-100.0));
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, () -> conta.sacar(-100.0));
 		assertEquals("O valor de saque deve ser superior a zero.", justificativa.getMessage());
 	}
+
 	@DisplayName("saque maior que saldo")
 	@Test
 	void saqueMaiorSaldo() {
-		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, ()->conta.sacar(500.0));
+		SaqueInvalidoException justificativa = assertThrows(SaqueInvalidoException.class, () -> conta.sacar(500.0));
 		assertEquals("Saldo insuficiente para esta transação.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("sacar valor")
 	@Test
 	void saque() throws SaqueInvalidoException {
@@ -92,8 +96,15 @@ class ContaCorrenteTest {
 		assertEquals(expectativa, conta.consultarSaldoAtual());
 		assertEquals(1, conta.getTransacao().size());
 	}
-	/*Fim teste sacar*/
+	/* Fim teste sacar */
 
+	@DisplayName("Validando conta")
+	@Test
+	void validarConta() {
+		conta.cancelarConta("teste de validação da conta");
+		CancellationException justificativa = assertThrows(CancellationException.class, () -> conta.validaConta());
+		assertEquals("Não é possível realizar essa operação, conta cancelada.", justificativa.getMessage());
+	}
 
 	@DisplayName("Cancelar conta justificativa nula")
 	@Test
@@ -102,21 +113,22 @@ class ContaCorrenteTest {
 				() -> conta.cancelarConta(null));
 		assertEquals("Justifique o motivo do cancelamento.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("Cancelar conta justificativa vazia")
 	@Test
 	void contaCanceladaJustificativaVazia() {
-		CancellationException justificativa = assertThrows(CancellationException.class, ()->conta.cancelarConta(""));
+		CancellationException justificativa = assertThrows(CancellationException.class, () -> conta.cancelarConta(""));
 		assertEquals("Justifique o motivo do cancelamento.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("Cancelar conta justificativa vazia")
 	@Test
 	void contaCanceladaJustificativaBranco() {
-		CancellationException justificativa = assertThrows(CancellationException.class, ()-> conta.cancelarConta("  "));
+		CancellationException justificativa = assertThrows(CancellationException.class,
+				() -> conta.cancelarConta("  "));
 		assertEquals("Justifique o motivo do cancelamento.", justificativa.getMessage());
 	}
-	
+
 	@DisplayName("Cancelar conta com justificativa")
 	@Test
 	void contaCanceladaComJustificativa() {
