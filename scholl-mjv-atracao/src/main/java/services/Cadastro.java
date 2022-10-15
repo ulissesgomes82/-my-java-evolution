@@ -66,7 +66,6 @@ public class Cadastro {
 		list.add(contrato.getAgendamento().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
 		list.add(contrato.getAgendamento().format(DateTimeFormatter.ofPattern("HHmm")));
 		list.add(contrato.getTipoServico().getValor());
-		System.out.println(contrato.getTipoServico().getValor());
 		// Coloca o valor do servico de acordo com o tipo de serviço porem 
 		if (contrato.getTipoServico().getValor().equals("A")) {
 			contrato.setValor(137.21);
@@ -75,7 +74,6 @@ public class Cadastro {
 			contrato.setValor(132.15);
 			System.out.println(contrato.getValorServico());
 		}
-		System.out.println(contrato.getValorServico());
 		list.add(String.valueOf(contrato.getValorServico()).replace('.', ' '));
 		list.add(contrato.getTipoNotificacao().getValor());
 
