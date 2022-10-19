@@ -138,15 +138,4 @@ public class Cadastro {
 		return mf.valueToString(celular);
 	}
 
-//	public static void main(String[] args) throws IOException, ParseException {
-//
-//		Endereco endereco = new Endereco("Rua Sebastião Firmino",123, "AP 210 BL CENTAURO", "São Sebastião",
-//				"São Raimundo Nonato", TipoUnidadeFederativa.valueOf("sp".toUpperCase()), "07.210.715");
-//		Contratante contratante = new Contratante("007.324.223.21", "33765-5",
-//				"Raimundo Nonato Loureiro Castelo Branco", "(11) 99768-1515", endereco);
-//		ContratoInstalacao contrato = new ContratoInstalacao(1984365, TipoServico.AGUA, TipoNotificacao.SMS,
-//				contratante);
-//		Cadastro.salvarCadastro("agua-luz-output", contrato);
-//		Cadastro.gerarRelatorio("C:\\estudo1\\mjv-java-school\\agua-luz-output", "1984365");
-//	}
 }
